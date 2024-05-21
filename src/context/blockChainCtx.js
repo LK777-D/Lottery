@@ -30,7 +30,7 @@ const BlockChainCtxProvider = ({ children }) => {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const LotteryContract = new ethers.Contract(
-        "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "0xc04f53104c317CDF463c1780207037AD3C6007d7",
         abi.abi,
         signer
       );
