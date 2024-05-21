@@ -1,0 +1,28 @@
+.glow-text {
+  animation: color-change 3s infinite alternate, glow 1s infinite alternate;
+  transition: color 3s;
+}
+
+@keyframes color-change {
+  0% {
+    color: white;
+  }
+  25% {
+    color: rgb(168, 94, 168);
+  }
+  50% {
+    color: rgb(124, 51, 124);
+  }
+  100% {
+    color: rgb(78, 6, 78);
+  }
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 1px white;
+  }
+  to {
+    text-shadow: 0 0 1.2px purple;
+  }
+}
