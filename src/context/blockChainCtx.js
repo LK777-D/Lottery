@@ -1,5 +1,5 @@
-"use client";
 import { ethers } from "ethers";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 import abi from "../../artifacts/contracts/Lottery.sol/Lottery.json";
 import { createContext, useState, useEffect, useContext } from "react";
 
@@ -17,43 +17,21 @@ const BlockChainCtxProvider = ({ children }) => {
   const connectToMetamask = async () => {
     try {
       if (window.ethereum && window.ethereum.isMetaMask) {
-        // Check if Sepolia network is added
-        const chainId = await window.ethereum.request({
-          method: "eth_chainId",
-        });
-        if (chainId !== "0xaa36a7") {
-          // Sepolia chain ID
-          try {
-            await window.ethereum.request({
-              method: "wallet_addEthereumChain",
-              params: [
-                {
-                  chainId: "0xaa36a7",
-                  chainName: "Sepolia Test Network",
-                  rpcUrls: ["https://rpc.sepolia.dev"],
-                  blockExplorerUrls: ["https://sepolia.etherscan.io"],
-                  nativeCurrency: {
-                    name: "Sepolia Test Ether",
-                    symbol: "ETH",
-                    decimals: 18,
-                  },
-                },
-              ],
-            });
-          } catch (addError) {
-            console.error("Failed to add Sepolia network", addError);
-            return;
-          }
-        }
-
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
         setAccounts(accounts[0]);
       } else if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
-        // Redirect to MetaMask mobile app link
-        window.location.href =
-          "https://metamask.app.link/dapp/ethlott.netlify.app";
+        // Use WalletConnect for mobile devices
+        const provider = new WalletConnectProvider({
+          infuraId: process.env.INFURA_PROJECT_ID, // Replace with your Infura ID
+        });
+
+        await provider.enable();
+        const web3Provider = new ethers.providers.Web3Provider(provider);
+        const signer = web3Provider.getSigner();
+        const accounts = await signer.getAddress();
+        setAccounts(accounts);
       } else {
         alert("MetaMask not found. Please install MetaMask.");
       }
@@ -71,9 +49,9 @@ const BlockChainCtxProvider = ({ children }) => {
   };
 
   const getEthereumContract = async () => {
-    const provider = new ethers.BrowserProvider(window.ethereum);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
     if (accounts) {
-      const signer = await provider.getSigner();
+      const signer = provider.getSigner();
       return new ethers.Contract(
         "0xc04f53104c317CDF463c1780207037AD3C6007d7",
         abi.abi,
@@ -179,7 +157,6 @@ const BlockChainCtxProvider = ({ children }) => {
   useEffect(() => {
     getLotteries();
     getAllWinners();
-    connectToMetamask();
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", handleAccountsChanged);
     }
