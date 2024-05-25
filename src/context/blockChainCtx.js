@@ -23,7 +23,8 @@ const BlockChainCtxProvider = ({ children }) => {
         setAccounts(accounts[0]);
       } else if (window.ethereum && window.ethereum.isMobile) {
         // Use deep link for MetaMask mobile app
-        window.location.href = "https://metamask.app.link/dapp/YOUR_DAPP_URL";
+        window.location.href =
+          "https://metamask.app.link/dapp/https://ethlott.netlify.app/";
       } else {
         alert("Please install MetaMask!");
       }

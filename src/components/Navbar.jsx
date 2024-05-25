@@ -14,7 +14,7 @@ const Navbar = () => {
         className="bg-violet-900 tracking-widest font-extrabold gap-1 flex items-center p-2 rounded-md border-white border"
       >
         <Image src={btc} alt="btc" width={25} className="object-cover" />
-        Lottery
+        Lotter
       </Link>
       {!accounts ? (
         <button
