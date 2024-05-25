@@ -21,12 +21,12 @@ const BlockChainCtxProvider = ({ children }) => {
           method: "eth_requestAccounts",
         });
         setAccounts(accounts[0]);
-      } else if (window.ethereum && window.ethereum.isMobile) {
-        // Use deep link for MetaMask mobile app
+      } else if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+        // Redirect to MetaMask mobile app link
         window.location.href =
-          "https://metamask.app.link/dapp/https://ethlott.netlify.app/";
+          "https://metamask.app.link/dapp/ethlott.netlify.app";
       } else {
-        alert("Please install MetaMask!");
+        alert("MetaMask not found. Please install MetaMask.");
       }
     } catch (error) {
       console.error("User rejected the request", error);
