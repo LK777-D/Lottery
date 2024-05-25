@@ -38,8 +38,8 @@
       ]
     },
     "C:\\Users\\V\\Desktop\\lotterydapp\\contracts\\Lottery.sol": {
-      "lastModificationDate": 1716206677188,
-      "contentHash": "6cba36667052544f60105bc2edf3c259",
+      "lastModificationDate": 1716297372147,
+      "contentHash": "8db4590982b3a24804e105cf24d3a403",
       "sourceName": "contracts/Lottery.sol",
       "solcConfig": {
         "version": "0.8.24",

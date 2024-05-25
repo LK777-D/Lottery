@@ -133,6 +133,13 @@ contract Lottery is ReentrancyGuard {
         lotteries[_id].round++;
         lotteries[_id].currentBalance = 0;
         lotteries[_id].currentPlayersNum = 0;
+
+        // Clear amountTicketsBought mapping for this lottery
+        for (uint256 i = 0; i < lotteries[_id].players.length; i++) {
+            address player = lotteries[_id].players[i];
+            amountTicketsBought[_id][player] = 0;
+        }
+
         delete lotteries[_id].players;
 
         WinnerStruct memory winnerInfo;
