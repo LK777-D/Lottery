@@ -62,7 +62,7 @@ const Card = ({
         )}
         {hasTicket[id] && (
           <button
-            className=" tracking-wider transition p-3 text-center duration-200 hover: text-purple-950 font-extrabold flex text-lg"
+            className=" tracking-wide transition p-3 text-center text-[1rem] duration-200 hover: text-purple-950 font-extrabold flex text-lg"
             onClick={() => refundTicket(id)}
           >
             REFUND TICKET{" "}
