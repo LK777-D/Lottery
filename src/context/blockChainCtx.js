@@ -17,6 +17,35 @@ const BlockChainCtxProvider = ({ children }) => {
   const connectToMetamask = async () => {
     try {
       if (window.ethereum && window.ethereum.isMetaMask) {
+        // Check if Sepolia network is added
+        const chainId = await window.ethereum.request({
+          method: "eth_chainId",
+        });
+        if (chainId !== "0xaa36a7") {
+          // Sepolia chain ID
+          try {
+            await window.ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [
+                {
+                  chainId: "0xaa36a7",
+                  chainName: "Sepolia Test Network",
+                  rpcUrls: ["https://rpc.sepolia.dev"],
+                  blockExplorerUrls: ["https://sepolia.etherscan.io"],
+                  nativeCurrency: {
+                    name: "Sepolia Test Ether",
+                    symbol: "ETH",
+                    decimals: 18,
+                  },
+                },
+              ],
+            });
+          } catch (addError) {
+            console.error("Failed to add Sepolia network", addError);
+            return;
+          }
+        }
+
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
