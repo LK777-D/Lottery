@@ -16,12 +16,19 @@ const BlockChainCtxProvider = ({ children }) => {
 
   const connectToMetamask = async () => {
     try {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      setAccounts(accounts[0]);
+      if (window.ethereum && window.ethereum.isMetaMask) {
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        setAccounts(accounts[0]);
+      } else if (window.ethereum && window.ethereum.isMobile) {
+        // Use deep link for MetaMask mobile app
+        window.location.href = "https://metamask.app.link/dapp/YOUR_DAPP_URL";
+      } else {
+        alert("Please install MetaMask!");
+      }
     } catch (error) {
-      console.error("User rejected the request");
+      console.error("User rejected the request", error);
     }
   };
 
